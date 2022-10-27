@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "dingtalk.webhook",
+      "type": "java.lang.String",
+      "description": "钉钉机器人的Webhook."
+    },
+    {
+      "name": "dingtalk.keyword",
+      "type": "java.lang.String",
+      "description": "钉钉机器人的唤醒关键词."
+    }
+  ] }
