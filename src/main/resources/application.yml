@@ -4,5 +4,10 @@ dingtalk:
 #  个人
 #  webhook: https://oapi.dingtalk.com/robot/send?access_token=24a3533ee4dd8616e57ff547344630b3188634af85c98304251769d10b317c53
 #  正式
-  webhook: https://oapi.dingtalk.com/robot/send?access_token=49764e9bcfcfa736999f85e1e648f39e88f60f59a1ba684b4aa531c89c4b6710
+  # 自定义关键词触发发送
   keyword: 通知
+  # 多个，可用逗号隔开，同时发送
+  # 正式
+  access_tokens: 49764e9bcfcfa736999f85e1e648f39e88f60f59a1ba684b4aa531c89c4b6710
+  # 定时任务
+  cron: 0 0 21 * * ?
