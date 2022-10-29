@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class TextEntity {
+public class TextEntity extends TypeEntity{
 
     private String msgType;
 

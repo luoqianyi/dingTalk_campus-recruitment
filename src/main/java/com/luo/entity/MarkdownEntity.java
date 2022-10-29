@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class MarkdownEntity {
+public class MarkdownEntity extends TypeEntity{
     private String msgType;
 
     // 显示标题

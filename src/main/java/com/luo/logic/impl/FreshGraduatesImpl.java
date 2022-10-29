@@ -11,12 +11,14 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FreshGraduatesImpl implements RecruitmentService {
 
     @Override
     public boolean orderRecruitment() {
-        // 发送应届生订阅
+        List<LinkEntity> linkEntities = new ArrayList<>();
         try {
             String yingjieListUrl = "https://app.yingjiesheng.com/weixin/?module=recommedlist&version=200&jobterm=fulltime&page=1&location=0&industrty=11";
             JSONObject getJsonObject = DingTalkUtils.getGetJsonObject(yingjieListUrl);
@@ -39,8 +41,8 @@ public class FreshGraduatesImpl implements RecruitmentService {
                             }
                             String linkUrl = getJsonObject.getString("linkurl");
                             LinkEntity linkEntity = new LinkEntity();
-                            linkEntity.setMessageUrl(linkUrl).setPicUrl("").setContent("开始日期:"+date+"\n"+isTop).setTitle(title+Constants.keyword);
-                            Constants.webhooks.forEach(webhook -> DingTalkUtils.sendToDingTalk(linkEntity.getJSONObjectString(),webhook));
+                            linkEntity.setMessageUrl(linkUrl).setPicUrl("").setContent("开始日期:"+date+"\n"+isTop).setTitle(title+ Constants.keyword);
+                            linkEntities.add(linkEntity);
                         }
                     }
                 }
@@ -49,6 +51,7 @@ public class FreshGraduatesImpl implements RecruitmentService {
             e.printStackTrace();
             return false;
         }
-        return true;
+        return DingTalkUtils.batchSend(linkEntities);
     }
+
 }

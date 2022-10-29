@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class LinkEntity {
+public class LinkEntity extends TypeEntity{
 
     private String msgType;
 

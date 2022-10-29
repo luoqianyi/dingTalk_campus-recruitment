@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class ActionCardEntity {
+public class ActionCardEntity extends TypeEntity{
 
     private String msgType;
 

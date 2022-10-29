@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OfferImpl implements RecruitmentService {
 
@@ -23,6 +25,7 @@ public class OfferImpl implements RecruitmentService {
         jsonObject.put("posInfoId","7");
         jsonObject.put("cityIdList","");
         String body = jsonObject.toJSONString();
+        List<LinkEntity> linkEntities = new ArrayList<>();
         try {
             String url = "https://backservice.offerxiansheng.com/api/backend-service/bkd/campus-recruit";
             String enterpriseList = url + "/applet/page-list";
@@ -50,8 +53,8 @@ public class OfferImpl implements RecruitmentService {
                                     String messageUrl = datas.getString("url");
                                     String logoUrl = datas.getString("logoUrl");
                                     LinkEntity linkEntity = new LinkEntity();
-                                    linkEntity.setMessageUrl(messageUrl).setPicUrl(logoUrl).setContent(content+"\n开始日期:"+beginTime).setTitle(title+Constants.keyword);
-                                    Constants.webhooks.forEach(webhook-> DingTalkUtils.sendToDingTalk(linkEntity.getJSONObjectString(),webhook));;
+                                    linkEntity.setMessageUrl(messageUrl).setPicUrl(logoUrl).setContent(content+"\n开始日期:"+beginTime).setTitle(title+ Constants.keyword);
+                                    linkEntities.add(linkEntity);
                                 }
                             }
                         }
@@ -63,6 +66,6 @@ public class OfferImpl implements RecruitmentService {
             e.printStackTrace();
             return false;
         }
-        return true;
+        return DingTalkUtils.batchSend(linkEntities);
     }
 }

@@ -1,9 +1,13 @@
 package com.luo.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.luo.config.Constants;
+import com.luo.entity.TypeEntity;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class DingTalkUtils {
 
@@ -55,5 +59,22 @@ public class DingTalkUtils {
         return JSONObject.parseObject(string);
     }
 
+    public static boolean batchSend(List<? extends TypeEntity> entities) {
+        for (TypeEntity entity : entities) {
+            Constants.maxMinuteCount.getAndDecrement();
+            if (Constants.maxMinuteCount.intValue() > 0) {
+                Constants.webhooks.forEach(webhook -> DingTalkUtils.sendToDingTalk(entity.getJSONObjectString(),webhook));
+            }else{
+                try {
+                    TimeUnit.SECONDS.sleep(60);
+                    Constants.maxMinuteCount.set(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }

@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class FeedCardEntity {
+public class FeedCardEntity extends TypeEntity{
 
     private String msgType;
 
